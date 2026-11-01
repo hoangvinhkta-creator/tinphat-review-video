@@ -1,0 +1,12 @@
+{
+  "name": "tinphat-review-video",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dựng video review sản phẩm khung dọc: đồ hoạ động + hiệu ứng âm thanh + nhạc nền + logo chìm, điều khiển bằng Claude Code",
+  "scripts": {
+    "setup": "npx playwright install chromium"
+  },
+  "dependencies": {
+    "playwright": "1.63.0"
+  }
+}

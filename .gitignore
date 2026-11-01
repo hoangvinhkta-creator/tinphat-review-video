@@ -1,0 +1,14 @@
+node_modules
+__pycache__/
+.DS_Store
+# dự án thật: không đẩy video/âm thanh/kết quả lên GitHub (nặng). Chỉ giữ kịch bản + scenes + project.json.
+projects/*/input/*.mov
+projects/*/input/*.MOV
+projects/*/input/*.mp4
+projects/*/input/*.m4v
+projects/*/input/*.mp3
+projects/*/input/*.wav
+projects/*/input/*.m4a
+projects/*/build/
+projects/*/out/
+.venv/

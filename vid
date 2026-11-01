@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Lệnh tắt: ./vid <lệnh>  ==  python engine/make.py <lệnh>  (dùng môi trường .venv nếu có)
+cd "$(dirname "$0")"
+PY=python3; [ -x .venv/bin/python ] && PY=.venv/bin/python
+exec "$PY" engine/make.py "$@"

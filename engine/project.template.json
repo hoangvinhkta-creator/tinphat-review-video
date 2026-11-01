@@ -1,0 +1,16 @@
+{
+  "product": {
+    "name": "Tên sản phẩm, vd: Máy sấy Electrolux 8 kg",
+    "model": "Mã máy, vd: EDV804H3WC",
+    "specs": [
+      "Mỗi dòng một điểm nổi bật ngắn gọn (để Claude chọn chữ cho đồ hoạ)"
+    ]
+  },
+  "subtitles": false,
+  "subtitleKeywords": [],
+  "tail": 1.2,
+  "watermark": { "opacity": 0.10, "scale": 1.0 },
+  "music": { "enabled": true, "bpm": 120, "key": 0, "seed": 7, "level_db": -6 },
+  "sfx": { "enabled": true, "level_db": -12 },
+  "min_voice_margin_db": 9
+}

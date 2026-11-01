@@ -1,0 +1,20 @@
+{
+  "product": {
+    "name": "Máy sấy Electrolux 8 kg",
+    "model": "EDV804H3WC",
+    "specs": [
+      "Công nghệ sấy thông hơi, khô nhanh, tiết kiệm thời gian",
+      "Sấy đảo chiều Reverse Tumbling: hạn chế nhăn, giảm xoắn rối",
+      "Chương trình sấy diệt khuẩn Hygiene",
+      "Tuỳ chỉnh thời gian, mức độ và nhiệt độ sấy theo loại vải",
+      "Khối lượng sấy 8 kg, hợp gia đình 3–5 người"
+    ]
+  },
+  "subtitles": false,
+  "subtitleKeywords": ["8", "cân", "40", "phút", "đảo", "chiều", "diệt", "khuẩn", "TÍN", "PHÁT", "Electrolux", "nồm", "ngắt"],
+  "tail": 1.2,
+  "watermark": { "opacity": 0.10, "scale": 1.0 },
+  "music": { "enabled": true, "bpm": 120, "key": 0, "seed": 7, "level_db": -6 },
+  "sfx": { "enabled": true, "level_db": -12 },
+  "min_voice_margin_db": 9
+}

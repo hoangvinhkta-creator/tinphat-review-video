@@ -1,0 +1,10 @@
+{
+  "store": ["ĐIỆN MÁY", "TÍN PHÁT"],
+  "logo": "logo.svg",
+  "colors": {
+    "navy": "#1b2a5e",
+    "red": "#d71920",
+    "yel": "#ffd23f",
+    "green": "#2aa46b"
+  }
+}

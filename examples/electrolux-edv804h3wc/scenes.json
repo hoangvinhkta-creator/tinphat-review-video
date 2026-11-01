@@ -1,0 +1,21 @@
+[
+  { "type": "title", "at": 0, "pill": "TẠM BIỆT", "lines": ["ban công giăng kín đồ", "ngày mưa nồm!"], "icon": "clothesline", "strike": "nồm" },
+  { "type": "feature", "at": "Nhờ", "icon": "stack", "small": "Lắp úp ngược", "big": "LẮP CHỒNG", "sub": "Ngay trên máy giặt", "subAt": "trên" },
+  { "type": "namecard", "at": "chiếc", "label": "MÁY SẤY", "name": "Electrolux", "model": "EDV804H3WC", "badge": { "value": "8", "unit": "kg", "at": "8" } },
+  { "type": "chip", "at": "vừa", "icon": "family", "label": "Gia đình", "value": "3 – 5 người", "valueAt": "3" },
+  { "type": "callout", "at": "Bảng", "small": "Bảng điều khiển", "big": "TIẾNG VIỆT", "point": [460, 890] },
+  { "type": "timer", "at": "hôm", "until": "Bên-0.2", "value": "40'", "label": "SẤY NHANH", "fillFrom": "Sấy", "fillTo": "phút@end", "valueAt": "40" },
+  { "type": "feature", "at": "lồng", "icon": "drum", "small": "Lồng sấy", "big": "THÉP KHÔNG GỈ", "sub": "Đảo chiều liên tục", "subAt": "đảo" },
+  { "type": "checklist", "at": "Quần", "until": "Máy-0.2", "items": [
+      { "text": "Đánh tơi quần áo", "at": "Quần" },
+      { "text": "Không xoắn rối", "at": "không" },
+      { "text": "Giũ nhẹ là phẳng", "at": "lấy" },
+      { "text": "Ủi đồ nhàn tênh", "at": "ủi" } ] },
+  { "type": "feature", "at": "Máy", "icon": "drop", "small": "Cảm biến độ ẩm", "big": "TỰ NGẮT", "sub": "khi đồ vừa khô", "subAt": "canh", "stamp": "ĐÃ KHÔ", "stampAt": "ngắt" },
+  { "type": "feature", "at": "lại", "until": "Máy-0.25", "icon": "shield", "accent": "green", "small": "Chương trình", "big": "SẤY DIỆT KHUẨN", "sub": "Hygiene · êm dịu cho da", "subAt": "diệt" },
+  { "type": "bigwords", "at": "Máy", "header": "MÁY SẤY ELECTROLUX", "words": [
+      { "text": "GỌN NHÀ", "at": "Gọn" },
+      { "text": "PHẲNG ÁO", "at": "phẳng", "color": "yellow" },
+      { "text": "THƠM THO", "at": "thơm" } ] },
+  { "type": "endcard", "at": "ghé", "highlightAt": "TÍN", "sub": "Máy sấy Electrolux 8 kg · EDV804H3WC" }
+]
