@@ -31,8 +31,10 @@ def check():
     row('ffmpeg', shutil.which('ffmpeg') is not None, 'brew install ffmpeg')
     if shutil.which('ffmpeg'):
         f = subprocess.run(['ffmpeg', '-hide_banner', '-filters'], capture_output=True, text=True).stdout
-        for flt in ('zscale', 'tonemap', 'sidechaincompress', 'loudnorm'):
-            row(f'  bộ lọc {flt}', f' {flt} ' in f, 'brew reinstall ffmpeg (bản Homebrew có sẵn)')
+        for flt in ('lut3d', 'sidechaincompress', 'loudnorm', 'acompressor'):
+            row(f'  bộ lọc {flt}', f' {flt} ' in f, 'brew reinstall ffmpeg')
+        if ' zscale ' not in f:
+            print('  · không có zscale: video HDR sẽ chuyển màu bằng 3D LUT (kết quả tương đương, không cần cài thêm)')
     row('node ≥ 18', shutil.which('node') is not None and int(subprocess.run(['node', '-v'], capture_output=True, text=True).stdout[1:].split('.')[0]) >= 18, 'brew install node')
     r = subprocess.run(['node', '-e', "require('playwright').chromium.executablePath()"], capture_output=True, text=True, cwd=ROOT) if shutil.which('node') else None
     row('playwright (npm)', r is not None and r.returncode == 0, 'npm install   (trong thư mục bộ công cụ)')
