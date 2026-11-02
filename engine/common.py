@@ -13,6 +13,8 @@ DEFAULTS = {
     "watermark": {"opacity": 0.10, "scale": 1.0},
     "music": {"enabled": True, "bpm": 120, "key": 0, "seed": 7, "level_db": -6},
     "sfx": {"enabled": True, "level_db": -12},
+    # cú mở đầu: lead giây đầu có tiếng rít dồn lên → BOOM (chớp trắng, rung, tiêu đề đập vào), lời dẫn vào ngay sau
+    "intro": {"enabled": True, "lead": 0.6, "level_db": -3, "flash": True, "shake": True},
     "min_voice_margin_db": 9,          # giọng phải cao hơn nền ít nhất chừng này dB khi đang nói
 }
 

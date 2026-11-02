@@ -232,12 +232,16 @@ const sfx = (t, kind, o = {}) => SFX.push({t: +t.toFixed(3), kind, ...o});
 const TYPES = {
   // Câu mở đầu: nhãn đỏ + 1–2 dòng chữ lớn + (tuỳ chọn) icon bên phải, gạch chéo icon tại `strike`
   title: {
-    prep(it) { it._strike = resolve(it.strike, it._t0); sfx(it._t0, 'whoosh', {d: .45, lo: 400, hi: 6000, gain: .8}); sfx(it._t0 + .05, 'pop', {f: 620, pan: -.2});
+    prep(it) { it._strike = resolve(it.strike, it._t0); it._slam = INTRO && it._i === 0;
+      if (!it._slam) { sfx(it._t0, 'whoosh', {d: .45, lo: 400, hi: 6000, gain: .8}); sfx(it._t0 + .05, 'pop', {f: 620, pan: -.2}); }
       if (it.icon) sfx(it._t0 + .18, 'pop', {f: 880, gain: .7, pan: .3});
       if (it._strike !== undefined) { sfx(it._strike, 'whoosh', {d: .18, lo: 1500, hi: 7000, gain: .7, pan: .3}); sfx(it._strike + .12, 'whoosh', {d: .18, lo: 1500, hi: 7000, gain: .7, pan: .35}); } },
     draw(it, t, L) {
       const lines = it.lines || []; const maxW = it.icon ? 600 : 840;
-      withL(L, 500, 380, () => {
+      // cú mở đầu: bật từ nhỏ lên, vượt nhẹ rồi về (tối đa ×1.04 để không tràn vùng an toàn)
+      if (it._slam) { const k = clamp((t - it._t0) / .26); const sc = k < .55 ? .45 + .59 * eOut(k / .55) : 1.04 - .04 * eOut((k - .55) / .45);
+        L = {...L, a: 1 - L.po, s: sc * (1 - .12 * eOut(L.po))}; }
+      withL(L, 502, 380, () => {
         if (it.pill) { const p1 = back(clamp((t - it._t0) / .35)); g.save(); g.translate(80, 268); g.scale(p1, p1); pill(it.pill, 0, 0, 40, C.red, '#fff'); g.restore(); }
         lines.forEach((s, i) => { const z = fit(s, it.size || 54, maxW); txt(s, 80, 392 + i * 70, z, i === lines.length - 1 && lines.length > 1 ? C.yel : '#fff', {stroke: 12}); });
         if (it.icon) {
@@ -435,6 +439,27 @@ function drawSafe() {
   g.strokeStyle = 'lime'; g.lineWidth = 3; g.strokeRect(SAFE.x0, SAFE.y0, SAFE.x1 - SAFE.x0, SAFE.y1 - SAFE.y0); g.strokeStyle = 'yellow'; g.strokeRect(SAFE.x0, SUB.y0, SAFE.x1 - SAFE.x0, 1440 - SUB.y0); g.restore();
 }
 
+// ---------- cú mở đầu (project.json "intro") ----------
+// 0 → BOOM: hình tối dần + tiếng rít dồn lên; BOOM: chớp trắng, rung, tiêu đề đập vào; lời dẫn vào ngay sau.
+let INTRO = null;   // {boom, flash, shake}
+function introPre(t) {
+  if (!INTRO || t >= INTRO.boom) return;
+  const k = clamp(t / INTRO.boom);
+  g.save(); const gr = g.createRadialGradient(540, 960, 200, 540, 960, 1150);
+  gr.addColorStop(0, `rgba(0,0,0,${.15 * k})`); gr.addColorStop(1, `rgba(0,0,0,${.75 * k})`);
+  g.fillStyle = gr; g.fillRect(0, 0, 1080, 1920); g.restore();
+}
+function introShake(t) {
+  if (!INTRO || !INTRO.shake || t < INTRO.boom) return [0, 0];
+  const P = Math.exp(-7 * (t - INTRO.boom)); if (P < .02) return [0, 0];
+  return [16 * P * Math.sin(t * 95), 12 * P * Math.cos(t * 83)];
+}
+function introFlash(t) {
+  if (!INTRO || !INTRO.flash || t < INTRO.boom) return;
+  const k = (t - INTRO.boom) / .25; if (k >= 1) return;
+  g.save(); g.fillStyle = `rgba(255,255,255,${.9 * (1 - eOut(k))})`; g.fillRect(0, 0, 1080, 1920); g.restore();
+}
+
 // ---------- khởi tạo + vẽ ----------
 let ITEMS = [];
 function prepScenes() {
@@ -444,6 +469,7 @@ function prepScenes() {
     if (!TYPES[it.type]) throw new Error(`scenes.json: loại "${it.type}" không có. Có: ${Object.keys(TYPES).join(', ')}`);
     it._t0 = resolve(it.at, prev); prev = it._t0;
   }
+  if (INTRO && ITEMS[0] && ITEMS[0].type === 'title') { ITEMS[0]._t0 = Math.max(ITEMS[0]._t0, INTRO.boom); }
   // until mặc định: lúc thành phần sau (cùng hàng hoặc hàng trên) xuất hiện
   ITEMS.forEach((it, i) => {
     if (it.type === 'chip' && !it.row) it.row = 2;
@@ -456,8 +482,12 @@ function prepScenes() {
 function render(t) {
   g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.setLineDash([]); g.shadowBlur = 0; g.shadowColor = 'transparent'; g.letterSpacing = '0px'; g.lineCap = 'butt'; g.lineJoin = 'miter';
   g.clearRect(0, 0, 1080, 1920);
+  introPre(t);
   watermark();
-  for (const it of ITEMS) { const L = life(t, it._t0, it._t1, it.type === 'title' ? .38 : .42); if (L) TYPES[it.type].draw(it, t, L); }
+  const [sx, sy] = introShake(t); g.save(); g.translate(sx, sy);
+  for (const it of ITEMS) { const L = life(t, it._t0, it._t1, it.type === 'title' ? (it._slam ? .05 : .38) : .42); if (L) TYPES[it.type].draw(it, t, L); }
+  g.restore();
+  introFlash(t);
   drawSubs(t);
   if (DEBUG) drawSafe();
 }
@@ -465,6 +495,7 @@ window.seek = (t) => render(t);
 window.init = async () => {
   try {
     if (CFG.brand && CFG.brand.colors) C = {...C, ...CFG.brand.colors};
+    if (CFG.intro && CFG.intro.enabled && CFG.intro.boom > 0) INTRO = {boom: CFG.intro.boom, flash: CFG.intro.flash !== false, shake: CFG.intro.shake !== false};
     await Promise.all(['800 58px Hepta', '800 40px BVP', '600 40px BVP'].map((f) => document.fonts.load(f, 'Tạm biệt ĐIỆN MÁY ữ')));
     if (CFG.logo) await new Promise((r) => { LOGO.onload = () => { LOGO_OK = true; r(); }; LOGO.onerror = () => r(); LOGO.src = CFG.logo; });
     prepScenes(); buildCues(); SFX.sort((a, b) => a.t - b.t);

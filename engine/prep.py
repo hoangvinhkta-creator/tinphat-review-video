@@ -47,7 +47,9 @@ def main(path):
     vin, ain = pr.video_in(), pr.voice_in()
     pr.script_in()  # kiểm tra có kịch bản
 
-    run(['ffmpeg', '-v', 'error', '-y', '-i', ain, '-ac', '2', '-ar', '48000', '-c:a', 'pcm_s16le', pr.b('voice.wav')])
+    ic = pr.cfg['intro']; lead = float(ic['lead']) if ic.get('enabled') else 0.0
+    af = ['-af', f'adelay={int(lead * 1000)}:all=1'] if lead > 0 else []   # chừa chỗ cho cú mở đầu trước lời dẫn
+    run(['ffmpeg', '-v', 'error', '-y', '-i', ain, *af, '-ac', '2', '-ar', '48000', '-c:a', 'pcm_s16le', pr.b('voice.wav')])
     vdur = float(probe(pr.b('voice.wav'))['format']['duration'])
 
     info = probe(vin)
@@ -89,7 +91,8 @@ def main(path):
                         '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709', 'base.mp4'], cwd=pr.build)
     if r.returncode != 0:
         die('ffmpeg lỗi khi chuẩn bị video' + (' (bước chuyển HDR → SDR).' if hdr else '.'))
-    json.dump({'duration': dur, 'voice': vdur, 'source': src_dur, 'hdr': hdr}, open(pr.b('info.json'), 'w'), indent=1)
+    boom = round(max(0.0, lead - 0.06), 3) if lead > 0 else 0.0   # tiếng nổ ngay trước chữ đầu tiên
+    json.dump({'duration': dur, 'voice': vdur, 'source': src_dur, 'hdr': hdr, 'lead': lead, 'boom': boom}, open(pr.b('info.json'), 'w'), indent=1)
     print(f'✓ build/base.mp4 ({dur:.2f}s), build/voice.wav ({vdur:.2f}s)')
 
 

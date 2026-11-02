@@ -53,7 +53,41 @@ Không mở bằng "Hôm nay mình review…". Mở bằng **nỗi khổ quen th
 | Nồi chiên không dầu / bếp | Chiên rán bắn dầu, khói ám bếp, ngại dọn rửa |
 | Máy lọc nước / lọc khí | Nước có mùi, nấu nước đun sôi mất công, bụi mịn, con hay hắt hơi |
 
-Hook ≤ 12 chữ, đi vào thẳng vấn đề, ví dụ "Tạm biệt cảnh ban công giăng kín đồ ngày mưa nồm!".
+#### Hook phải GÂY SỐC, không được "hiền"
+Người xem quyết định lướt hay ở lại trong **1,5 giây đầu**. Câu "Tạm biệt cảnh ban công giăng kín đồ ngày mưa nồm!" đúng nỗi đau nhưng **quá hiền**: nó kể lại vấn đề chứ không đánh thẳng vào người xem. Hook mạnh phải có ít nhất một trong các yếu tố: **lệnh dừng**, **hậu quả xấu cụ thể**, **câu hỏi chọc thẳng vào người xem**, **nghịch lý**, **con số đắt**.
+
+**7 công thức** (ví dụ máy sấy, cùng một nỗi đau "mưa nồm"):
+
+| # | Công thức | Ví dụ lời đọc | Chữ trên hình (`title`) |
+|---|---|---|---|
+| 1 | **Lệnh dừng**: "Đừng / Ngừng ngay … nữa!" | "Ngừng ngay việc phơi đồ ngoài ban công ngày nồm!" | pill **DỪNG LẠI** · "Phơi đồ ngày nồm?" |
+| 2 | **Hậu quả xấu cụ thể** (chuyện thật hằng ngày) | "Phơi ba ngày vẫn ẩm, mặc vào là mùi chua, ngứa cả người!" | pill **CẢNH BÁO** · "Áo phơi 3 ngày / VẪN BỐC MÙI" |
+| 3 | **Câu hỏi chọc thẳng** | "Nhà bạn có đang mặc quần áo… còn ẩm mỗi sáng?" | pill **BẠN CÓ ĐANG** · "mặc đồ còn ẩm?" |
+| 4 | **Nghịch lý / gây tò mò** | "Không cần ban công, đồ vẫn khô thơm mỗi ngày – kể cả mưa nồm!" | pill **KHÔNG CẦN** · "ban công / VẪN KHÔ THƠM" |
+| 5 | **Sai lầm phổ biến** | "Sai lầm của 9/10 nhà chung cư: phơi đồ trong nhà ngày nồm!" (chỉ dùng tỉ lệ nếu có nguồn, không thì "Sai lầm của rất nhiều nhà chung cư") | pill **SAI LẦM** · "Phơi đồ trong nhà" |
+| 6 | **Con số đắt nhất** (đúng thông số trang) | "40 phút! Đúng 40 phút là cả mẻ đồ khô cong." | pill **40 PHÚT** · "ĐỒ KHÔ CONG" |
+| 7 | **So sánh trước / sau** | "Trước: ban công như bãi chiến trường. Sau: một góc gọn tinh tươm." | pill **TRƯỚC / SAU** |
+
+Hook theo ngành hàng (chọn công thức hợp, đổi lời):
+
+| Loại | Hook mẫu |
+|---|---|
+| Máy giặt | "Đừng giặt tay nữa – lưng bạn sẽ cảm ơn đấy!" · "Máy cũ rung ầm ầm lúc nửa đêm? Đến lúc thay rồi!" |
+| Tủ lạnh | "Rau mua hôm qua, hôm nay đã héo? Lỗi không phải ở rau!" |
+| Điều hoà | "Hoá đơn tiền điện tháng 6 làm bạn giật mình? Xem cái này!" |
+| TV | "Xem bóng đá mà hình giật như quay chậm? Bỏ ngay!" |
+| Nồi chiên không dầu | "Ngừng chiên rán bắn dầu khắp bếp!" |
+| Máy lọc nước / khí | "Nước đun sôi để nguội có thật sự sạch?" (chỉ khi trang có nói về lọc cặn, khuẩn) |
+
+**Quy tắc hook:**
+- **3 chữ đầu phải "đánh"** ("Ngừng ngay…", "Phơi ba ngày…", "40 phút!…"). Không chào hỏi, không mở bằng tên hãng.
+- **≤ 14 âm tiết**, một hơi đọc. Người làm voice đọc **nhanh, gắt, có nhấn**. Giọng hiền thì cũng mất sức.
+- **Nối về sản phẩm trong vòng 5 giây** (câu thứ hai nhắc ngay tên máy và lợi ích).
+- **Gây sốc bằng sự thật đời thường, không bằng hù doạ sai.** Không bịa số liệu hay thống kê, không doạ bệnh tật ("gây ung thư", "nhiễm độc") khi trang không nói, không chê hãng hay cửa hàng khác.
+- **Chữ trên hình** (`title`) ngắn hơn lời: pill 1–2 chữ in hoa (DỪNG LẠI, CẢNH BÁO, SAI LẦM, 40 PHÚT), 1–2 dòng ≤ 20 ký tự. Dòng cuối là chữ vàng, phần gắt nhất.
+- **Luôn viết 3 phương án hook** (3 công thức khác nhau) trong `script.md` để người dùng chọn. Phương án Claude khuyên dùng đặt đầu tiên và ghi lý do.
+
+**Âm thanh và hình đi kèm hook** (tự có, không cần viết): 0,6 giây đầu hình tối dần và tiếng rít dồn lên, rồi **BOOM** cùng chớp trắng, rung hình, tiêu đề bật vào, và lời hook vào ngay sau tiếng nổ. Vì thế hook phải **vào thẳng ý ngay từ chữ đầu**, không cần "à", "này".
 
 ### 4. Khớp lời với hình (nghe gì thì phải thấy cái đó)
 Mỗi câu gắn một **góc quay**:
@@ -68,7 +102,7 @@ Mẫu đã dùng thật: `examples/electrolux-edv804h3wc/input/script.txt` (44 g
 
 | Đoạn | Thời lượng | Nội dung | Góc quay |
 |---|---|---|---|
-| **1. Hook + giới thiệu** | 8–10 s | Nỗi đau, rồi tên máy kèm 1 lợi ích lớn và con số quan trọng nhất | Toàn cảnh, tiến dần vào máy |
+| **1. Hook + giới thiệu** | 8–10 s | **Hook gây sốc** (xem 7 công thức ở trên), rồi tên máy kèm 1 lợi ích lớn và con số quan trọng nhất | Toàn cảnh, tiến dần vào máy |
 | **2. Dễ dùng** | 8–10 s | Bảng điều khiển, chế độ nhanh, app. Đặt vào tình huống đời thường ("hôm nào nhà mình vội đi làm…") | Cận bảng điều khiển + ngón tay |
 | **3. Công nghệ cốt lõi** | 8–10 s | 1 công nghệ đã dịch sang tiếng người, kèm 2–3 lợi ích ngắn liên tiếp | Cận bên trong máy |
 | **4. Điểm cộng thêm** | 6–8 s | 1–2 tính năng phụ (cảm biến, diệt khuẩn, tiết kiệm điện, khoá trẻ em) | Cận chi tiết / nhãn |
@@ -94,7 +128,12 @@ Mẫu đã dùng thật: `examples/electrolux-edv804h3wc/input/script.txt` (44 g
 # Kịch bản — <Tên sản phẩm> (<mã máy>) · Điện máy TÍN PHÁT
 ~<N> giây · <S> âm tiết
 
-## Lời đọc (copy nguyên khối để làm voice)
+## Chọn hook (câu mở đầu)
+A. (khuyên dùng – lý do …) <hook A>
+B. <hook B>
+C. <hook C>
+
+## Lời đọc (copy nguyên khối để làm voice – đang dùng hook A)
 <toàn bộ lời đọc>
 
 ## Lời ↔ góc quay
@@ -108,6 +147,7 @@ Mẫu đã dùng thật: `examples/electrolux-edv804h3wc/input/script.txt` (44 g
 - Phần trên cùng khung (~1/5) để trống (trần, kệ hàng), vì đồ hoạ nằm ở đó; máy ở giữa khung.
 
 ## Làm voice
-- Giọng trẻ, sáng, nhanh vừa (1.05–1.1×), nhấn ở con số và ở "TÍN PHÁT".
+- Câu hook: đọc **nhanh, gắt, nhấn mạnh 3 chữ đầu** (như đang cảnh báo); phần còn lại giọng trẻ, sáng, nhanh vừa (1.05–1.1×), nhấn ở con số và ở "TÍN PHÁT".
+- Voice bắt đầu nói **ngay từ giây 0** (không để khoảng lặng đầu file); công cụ tự chừa chỗ cho tiếng nổ mở đầu.
 - Xuất MP3/WAV, **không chèn nhạc**. Đọc đúng y lời trên; nếu sửa lời khi thu thì gửi lại lời đã sửa.
 ```

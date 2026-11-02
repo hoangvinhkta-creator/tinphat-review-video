@@ -21,7 +21,7 @@ Quy trình có **hai giai đoạn**, giữa hai giai đoạn là lúc người d
 Tóm tắt (4 bước tư duy: lọc dữ liệu → dịch thuật ngữ sang lợi ích nói → hook bằng nỗi đau → khớp lời với góc quay):
 1. Đọc link bằng WebFetch, lấy tên, hãng, mã máy và 4–6 tính năng nổi bật. Không tự bịa thông số.
 2. `./vid new <hang-ma-may>`, rồi điền `product` vào `projects/<tên>/project.json`.
-3. Viết kịch bản 5 đoạn (hook, dễ dùng, công nghệ, điểm cộng, slogan 3 vế + "ghé ngay Điện máy TÍN PHÁT"), khoảng 150–190 âm tiết. Kiểm tra độ dài: `./vid count projects/<tên>`.
+3. Viết kịch bản 5 đoạn (hook, dễ dùng, công nghệ, điểm cộng, slogan 3 vế + "ghé ngay Điện máy TÍN PHÁT"), khoảng 150–190 âm tiết. **Hook phải gây sốc** (7 công thức trong docs). Luôn đưa **3 phương án hook** để người dùng chọn. Kiểm tra độ dài: `./vid count projects/<tên>`.
 4. Lưu `input/script.txt` (chỉ lời đọc) và `script.md` (kịch bản + cảnh cần quay + ghi chú voice).
 5. Soát lại: không có tên trang nguồn hay đối thủ, câu cuối mời ghé Điện máy TÍN PHÁT, không văn mẫu dịch thô.
 6. Gửi người dùng **kịch bản trong một khối dễ copy**, kèm bảng lời ↔ góc quay. Dừng lại chờ họ gửi voice và video.
@@ -56,7 +56,7 @@ Nếu người dùng muốn sửa kịch bản, sửa `input/script.txt` và `sc
 - Mỗi câu hoặc ý chính có **một** thành phần. Thành phần sau tự thay thành phần trước (cùng hàng).
 - Chữ trên đồ hoạ **ngắn**: dòng lớn ≤ 16 ký tự, dòng phụ ≤ 26 ký tự. Lấy từ khoá của lời đọc, viết hoa dòng lớn.
 - Con số (8 kg, 40', 3–5 người) cho **nảy đúng lúc đọc** (badge.at, valueAt…).
-- Mở đầu dùng `title`, kết thúc luôn là `endcard`. Trước endcard nên có `bigwords` cho slogan 3 vế.
+- Mở đầu dùng `title` (phải là thành phần **đầu tiên**, `"at": 0`): khi bật cú mở đầu, tiêu đề tự xuất hiện đúng lúc **BOOM** (chớp trắng + rung + bật vào). Chữ tiêu đề **gắt**: pill 1–2 chữ in hoa (DỪNG LẠI / CẢNH BÁO / SAI LẦM / 40 PHÚT), 1–2 dòng ≤ 20 ký tự, dòng cuối vàng là phần gắt nhất. Kết thúc luôn là `endcard`. Trước endcard nên có `bigwords` cho slogan 3 vế.
 - Đồ hoạ nằm ở phần trên khung (y 268–700). Mọi vị trí đã nằm trong vùng an toàn; chỉ `callout.point` là bạn tự chọn: đặt vào chi tiết máy nhìn thấy trên `contact.png` lúc đó, trong khoảng x 80–920, y ≤ 1240.
 
 **Cách ghi thời điểm** (`at`, `until`, `subAt`, `valueAt`…):
@@ -120,6 +120,7 @@ Sửa scenes.json rồi xem lại. Xong thì gửi người dùng `out/stills/st
 | Bỏ nhạc (tự ghép nhạc TikTok/CapCut) | `music.enabled: false` |
 | Logo chìm đậm hơn | `watermark.opacity` (0.10 → 0.15) |
 | Giữ màn kết lâu hơn | `tail` (giây sau khi hết lời, mặc định 1.2) |
+| Cú mở đầu (rít → BOOM + chớp trắng + rung) | `intro`: `enabled` (mặc định bật), `lead` (giây trước lời, 0.6), `level_db` (độ to tiếng nổ, -3), `flash`, `shake`. Đổi `lead` thì chạy lại từ `prep` |
 Sửa xong chạy lại từ bước bị ảnh hưởng: đồ hoạ hoặc phụ đề → `render audio mix final`; chỉ âm thanh → `audio mix final`.
 
 ### Người dùng góp ý dạng "giây X, thành phần Y, đổi thành Z"

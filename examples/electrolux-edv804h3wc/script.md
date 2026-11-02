@@ -1,7 +1,13 @@
 # Kịch bản — Máy sấy Electrolux 8 kg (EDV804H3WC) · Điện máy TÍN PHÁT
 ~44 giây · 191 âm tiết
 
-## Lời đọc (copy nguyên khối để làm voice)
+## Chọn hook (câu mở đầu)
+A. (khuyên dùng – lệnh dừng + đúng nỗi đau mùa nồm, 3 chữ đầu đã "đánh") "Ngừng ngay việc phơi đồ ngoài ban công ngày nồm!"
+B. (hậu quả cụ thể) "Phơi ba ngày vẫn ẩm, mặc vào là mùi chua, ngứa cả người!"
+C. (nghịch lý) "Không cần ban công, đồ vẫn khô thơm mỗi ngày – kể cả mưa nồm!"
+Đã dùng khi dựng bản mẫu: "Tạm biệt cảnh ban công giăng kín đồ ngày mưa nồm!" (đúng nỗi đau nhưng còn hiền – nên thay bằng A).
+
+## Lời đọc (copy nguyên khối để làm voice – bản đã thu)
 Tạm biệt cảnh ban công giăng kín đồ ngày mưa nồm! Nhờ khả năng lắp úp ngược ngay trên máy giặt, chiếc máy sấy Electrolux 8 cân này gói gọn góc giặt giũ, vừa vặn cho gia đình 3 đến 5 người.
 Với Bảng điều khiển tiếng Việt cực dễ thao tác, ai nhìn cũng biết bấm; hôm nào nhà mình vội đi làm thì chọn ngay mức Sấy nhanh 40 phút là có thể giải quyết ngay chỗ quần áo cho kịp thời gian.
 Bên trong máy, lồng sấy thép không gỉ là cơ chế đảo chiều liên tục. Quần áo được đánh tơi, không xoắn rối thành cục, lấy ra giũ nhẹ là phẳng, việc là ủi sau giặt cực kì nhàn.
@@ -11,7 +17,7 @@ Máy sấy Electrolux – Gọn nhà, phẳng áo, thơm tho bất chấp thời
 ## Lời ↔ góc quay
 | # | Lời | Góc quay | Đồ hoạ (scenes.json) |
 |---|---|---|---|
-| 1 | Tạm biệt cảnh ban công… mưa nồm! | Toàn cảnh trong kho, tiến dần vào máy | `title` "TẠM BIỆT" + icon đồ phơi, gạch chéo ở "nồm" |
+| 1 | Tạm biệt cảnh ban công… mưa nồm! | Toàn cảnh trong kho, tiến dần vào máy | `title` "MƯA NỒM" · Phơi mãi không khô / BAN CÔNG KÍN MÍT? + icon đồ phơi, gạch chéo ở "nồm" (BOOM mở đầu) |
 | 2 | Nhờ khả năng lắp úp ngược… máy giặt | Tiến gần máy | `feature` icon `stack` "LẮP CHỒNG" |
 | 3 | chiếc máy sấy Electrolux 8 cân… 3 đến 5 người | Máy cận | `namecard` + huy hiệu 8 kg, `chip` gia đình 3–5 người |
 | 4 | Với Bảng điều khiển tiếng Việt… biết bấm | Cận bảng điều khiển | `callout` "TIẾNG VIỆT" chỉ xuống bảng |

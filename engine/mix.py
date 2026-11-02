@@ -19,12 +19,14 @@ def rd(p):
 
 def mix_once(pr, mus_db, sfx_db, dur):
     m_on = pr.cfg['music'].get('enabled', True); s_on = pr.cfg['sfx'].get('enabled', True)
-    fc = (f"[0:a]highpass=f=70,acompressor=threshold=-22dB:ratio=3:attack=5:release=120:makeup=3dB,apad,atrim=0:{dur},asplit=3[v][k1][k2];"
+    i_on = pr.cfg['intro'].get('enabled', True); i_db = float(pr.cfg['intro'].get('level_db', -3)) + (mus_db - float(pr.cfg['music']['level_db']))
+    fc = (f"[0:a]highpass=f=70,acompressor=threshold=-22dB:ratio=3:attack=5:release=120:makeup=3dB,apad,atrim=0:{dur},asplit=4[v][k1][k2][k3];"
           f"[1:a]equalizer=f=2500:t=o:w=1.5:g=-6,equalizer=f=1000:t=o:w=1:g=-3,equalizer=f=250:t=o:w=1:g=-2,volume={mus_db if m_on else -90}dB[m];"
           f"[m][k1]sidechaincompress=threshold=0.02:ratio=10:attack=20:release=450:knee=3[md];"
           f"[2:a]highpass=f=120,volume={sfx_db if s_on else -90}dB[s];[s][k2]sidechaincompress=threshold=0.02:ratio=3:attack=3:release=150[sd];"
-          f"[md][sd]amix=inputs=2:normalize=0,apad,atrim=0:{dur}[bed]")
-    run(['ffmpeg', '-v', 'error', '-y', '-i', pr.b('voice.wav'), '-i', pr.b('music.wav'), '-i', pr.b('sfx.wav'), '-filter_complex', fc,
+          f"[3:a]volume={i_db if i_on else -90}dB[i];[i][k3]sidechaincompress=threshold=0.02:ratio=4:attack=5:release=250[id];"
+          f"[md][sd][id]amix=inputs=3:normalize=0,apad,atrim=0:{dur}[bed]")
+    run(['ffmpeg', '-v', 'error', '-y', '-i', pr.b('voice.wav'), '-i', pr.b('music.wav'), '-i', pr.b('sfx.wav'), '-i', pr.b('intro.wav'), '-filter_complex', fc,
          '-map', '[v]', '-c:a', 'pcm_s16le', pr.b('voice_proc.wav'), '-map', '[bed]', '-c:a', 'pcm_s16le', pr.b('bed.wav')])
     v, sr = rd(pr.b('voice_proc.wav')); b, _ = rd(pr.b('bed.wav')); n = min(len(v), len(b))
     k = butter(2, 150, 'highpass', fs=sr, output='sos'); vf, bf = sosfilt(k, v[:n]), sosfilt(k, b[:n])

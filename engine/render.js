@@ -23,9 +23,14 @@ function merge(a, b) { const o = { ...a }; for (const [k, v] of Object.entries(b
   if (!fs.existsSync(scenesFile)) { console.error('✗ Thiếu scenes.json trong dự án.'); process.exit(1); }
   const info = readJSON(path.join(B, 'info.json'));
   const brand = readJSON(path.join(ROOT, 'assets', 'brand', 'brand.json'));
-  const proj = merge({ subtitles: false, subtitleKeywords: [], watermark: { opacity: 0.1, scale: 1 } }, fs.existsSync(path.join(P, 'project.json')) ? readJSON(path.join(P, 'project.json')) : {});
+  const proj = merge({ subtitles: false, subtitleKeywords: [], watermark: { opacity: 0.1, scale: 1 }, intro: { enabled: true, flash: true, shake: true } }, fs.existsSync(path.join(P, 'project.json')) ? readJSON(path.join(P, 'project.json')) : {});
   const CFG = { brand, subtitles: !!proj.subtitles, subtitleKeywords: proj.subtitleKeywords || [], watermark: proj.watermark, duration: info.duration,
-    logo: 'file://' + path.join(ROOT, 'assets', 'brand', brand.logo || 'logo.svg') };
+    logo: 'file://' + path.join(ROOT, 'assets', 'brand', brand.logo || 'logo.svg'),
+    intro: { ...proj.intro, enabled: !!(proj.intro.enabled && info.boom > 0), boom: info.boom || 0 } };
+  // rung + giật zoom video nền tại tiếng nổ (zoompan: khung cố định 1080x1920)
+  const BOOM = CFG.intro.boom, PK = `if(gte(it,${BOOM}),exp(-7*(it-${BOOM})),0)`;
+  const baseFx = CFG.intro.enabled && CFG.intro.shake !== false
+    ? `zoompan=z='1+0.10*${PK}':x='iw/2-iw/zoom/2+16*${PK}*sin(it*95)':y='ih/2-ih/zoom/2+12*${PK}*cos(it*83)':d=1:s=1080x1920:fps=30,` : '';
   let scenes = readJSON(scenesFile); if (!Array.isArray(scenes)) scenes = scenes.scenes;
 
   const browser = await chromium.launch({ args: ['--allow-file-access-from-files'] });
@@ -55,7 +60,7 @@ function merge(a, b) { const o = { ...a }; for (const [k, v] of Object.entries(b
     for (const t of ts) {
       const ov = path.join(B, `ov_${t}.png`); fs.writeFileSync(ov, await shot(t));
       const out = path.join(dir, `still_${t.toFixed(2)}${safe ? '_safe' : ''}.png`);
-      execFileSync('ffmpeg', ['-v', 'error', '-y', '-ss', String(t), '-i', path.join(B, 'base.mp4'), '-i', ov, '-frames:v', '1', '-filter_complex', '[0][1]overlay', out]);
+      execFileSync('ffmpeg', ['-v', 'error', '-y', '-ss', String(t), '-copyts', '-i', path.join(B, 'base.mp4'), '-i', ov, '-frames:v', '1', '-filter_complex', `[0:v]${baseFx}null[b];[b][1]overlay`, out]);
       outs.push(out); console.log(out);
     }
     if (outs.length > 1) {   // ghép ngang để xem nhanh
@@ -66,7 +71,7 @@ function merge(a, b) { const o = { ...a }; for (const [k, v] of Object.entries(b
   } else if (mode === 'full') {
     const N = Math.round(info.duration * FPS), out = path.join(B, 'video.mp4');
     const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-i', path.join(B, 'base.mp4'), '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'png', '-i', '-',
-      '-filter_complex', '[0:v][1:v]overlay=eof_action=pass,format=yuv420p[v]', '-map', '[v]', '-t', String(info.duration),
+      '-filter_complex', `[0:v]${baseFx}null[b];[b][1:v]overlay=eof_action=pass,format=yuv420p[v]`, '-map', '[v]', '-t', String(info.duration),
       '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '17', '-profile:v', 'high', '-r', String(FPS), '-movflags', '+faststart', out], { stdio: ['pipe', 'inherit', 'inherit'] });
     const t0 = Date.now();
     for (let i = 0; i < N; i++) {

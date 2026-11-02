@@ -17,6 +17,7 @@ def main(path):
     info = json.load(open(pr.b('info.json')))
     DUR = float(ev['duration']); N = int(SR * DUR)
     mcfg = pr.cfg['music']
+    BOOM = float(info.get('boom', 0)) if pr.cfg['intro'].get('enabled', True) else 0.0
     rng = np.random.default_rng(int(mcfg.get('seed', 7)))
 
     def tt(d): return np.arange(int(SR * d)) / SR
@@ -107,9 +108,11 @@ def main(path):
         voice_end = float(info.get('voice', DUR - 1.2))
         final_t = np.ceil((voice_end - .3) / BEAT) * BEAT          # hợp âm kết ngay khi gần hết lời
         roll_bar = int(end_t // BAR) - 1 if end_t else -1           # ô nhịp có dồn trống (trước màn kết)
+        M0 = BOOM if BOOM > 0 else 0.0                               # có cú mở đầu: nhạc vào mạnh ngay tại tiếng nổ
+        roll_bar = int((end_t - M0) // BAR) - 1 if end_t else -1
         b = 0
-        while b * BAR < final_t:
-            t0 = b * BAR; ci = b % 4; intro = b < 1; bar_end = min(t0 + BAR, final_t)
+        while M0 + b * BAR < final_t:
+            t0 = M0 + b * BAR; ci = b % 4; intro = b < 1 and M0 == 0; bar_end = min(t0 + BAR, final_t)
             M(t0, pad(CH[ci], bar_end - t0), .9)
             for beat in range(4):
                 tb = t0 + beat * BEAT
@@ -135,15 +138,35 @@ def main(path):
         if tail > .2:
             c = [48 + KEY, 55 + KEY, 60 + KEY, 64 + KEY, 67 + KEY]
             M(final_t, pad(c, tail), 1.2); M(final_t, pluck(c[2:] + [c[2] + 12], min(1.5, tail), 2600), 1.0); M(final_t, kick(), .9); M(final_t, bass(36 + KEY, min(1.4, tail)), 1.0)
-        fade = np.ones(N); fi = int(.25 * SR); fade[:fi] = np.linspace(0, 1, fi); fo = min(int(1.2 * SR), N // 4); fade[-fo:] = np.linspace(1, 0, fo)
+        fade = np.ones(N); fi = int(.25 * SR) if M0 == 0 else int(.004 * SR); i0 = int(M0 * SR)
+        fade[:i0] = 0; fade[i0:i0 + fi] = np.linspace(0, 1, fi); fo = min(int(1.2 * SR), N // 4); fade[-fo:] = np.linspace(1, 0, fo)
         mus *= fade
+
+    # ---------- cú mở đầu: tiếng rít dồn lên → khoảng lặng hút hơi → BOOM nhiều lớp ----------
+    intro = np.zeros((2, N))
+    if BOOM > 0:
+        d = BOOM - 0.04                                             # rít dừng 40 ms trước tiếng nổ (tạo độ "hẫng")
+        t = tt(d); n = rng.standard_normal(len(t)); rs = np.zeros_like(n); segs = 12
+        for k in range(segs):
+            a_, b_ = int(len(t) * k / segs), int(len(t) * (k + 1) / segs); c = 500 * 16 ** (k / segs); rs[a_:b_] = bp(n, c * .7, c * 1.5)[a_:b_]
+        sweep = np.sin(2 * np.pi * np.cumsum(220 * 4 ** (t / d)) / SR) * .35
+        rise = (rs * .7 + sweep) * (t / d) ** 2.2
+        place(intro, 0.0, rise, .8)
+        T_ = tt(2.2)
+        sub = np.tanh(2.2 * np.sin(2 * np.pi * np.cumsum(32 + 60 * np.exp(-T_ / .25)) / SR)) * np.exp(-T_ / .9)
+        punch = np.sin(2 * np.pi * np.cumsum(50 + 160 * np.exp(-T_ / .035)) / SR) * np.exp(-T_ / .18)
+        crack = hp(rng.standard_normal(len(T_)), 1800) * np.exp(-T_ / .025) * .9 + bp(rng.standard_normal(len(T_)), 700, 4000) * np.exp(-T_ / .06) * .5
+        metal = sum(a * np.sin(2 * np.pi * f * T_) * np.exp(-T_ / dd) for f, a, dd in [(173, .35, .9), (291, .25, .7), (447, .18, .55), (662, .12, .4), (1013, .08, .3)])
+        rumble = lp(rng.standard_normal(len(T_)), 180) * np.exp(-T_ / .8) * 1.4
+        boom = (sub * 1.0 + punch * .9 + crack + metal * .5 + rumble) * (1 - np.exp(-T_ / .0015))
+        place(intro, BOOM, boom, 1.0, -.08); place(intro, BOOM + .012, boom * .6, 1.0, .1)   # hơi rộng stereo
 
     def write(name, x):
         pk = np.abs(x).max()
         if pk > 0: x = x / pk * 10 ** (-1 / 20)
         with wave.open(name, 'w') as w:
             w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((x.T * 32767).astype('<i2').tobytes())
-    write(pr.b('sfx.wav'), sfx); write(pr.b('music.wav'), mus)
+    write(pr.b('sfx.wav'), sfx); write(pr.b('music.wav'), mus); write(pr.b('intro.wav'), intro)
     print(f'✓ build/sfx.wav ({len(ev["sfx"])} hiệu ứng), build/music.wav ({"tắt" if not mcfg.get("enabled", True) else str(mcfg.get("bpm", 120)) + " BPM"})')
 
 

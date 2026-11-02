@@ -9,8 +9,27 @@
   "subtitles": false,
   "subtitleKeywords": [],
   "tail": 1.2,
-  "watermark": { "opacity": 0.10, "scale": 1.0 },
-  "music": { "enabled": true, "bpm": 120, "key": 0, "seed": 7, "level_db": -6 },
-  "sfx": { "enabled": true, "level_db": -12 },
+  "watermark": {
+    "opacity": 0.1,
+    "scale": 1.0
+  },
+  "music": {
+    "enabled": true,
+    "bpm": 120,
+    "key": 0,
+    "seed": 7,
+    "level_db": -6
+  },
+  "sfx": {
+    "enabled": true,
+    "level_db": -12
+  },
+  "intro": {
+    "enabled": true,
+    "lead": 0.6,
+    "level_db": -3,
+    "flash": true,
+    "shake": true
+  },
   "min_voice_margin_db": 9
 }

@@ -1,5 +1,5 @@
 [
-  { "type": "title", "at": 0, "pill": "TẠM BIỆT", "lines": ["ban công giăng kín đồ", "ngày mưa nồm!"], "icon": "clothesline", "strike": "nồm" },
+  { "type": "title", "at": 0, "pill": "MƯA NỒM", "lines": ["Phơi mãi không khô", "BAN CÔNG KÍN MÍT?"], "icon": "clothesline", "strike": "nồm" },
   { "type": "feature", "at": "Nhờ", "icon": "stack", "small": "Lắp úp ngược", "big": "LẮP CHỒNG", "sub": "Ngay trên máy giặt", "subAt": "trên" },
   { "type": "namecard", "at": "chiếc", "label": "MÁY SẤY", "name": "Electrolux", "model": "EDV804H3WC", "badge": { "value": "8", "unit": "kg", "at": "8" } },
   { "type": "chip", "at": "vừa", "icon": "family", "label": "Gia đình", "value": "3 – 5 người", "valueAt": "3" },
